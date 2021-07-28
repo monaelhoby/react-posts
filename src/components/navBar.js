@@ -37,7 +37,6 @@ export default function ButtonAppBar() {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
           <Link to="/" className={classes.link}>Home</Link>
-          <Link to="/Profile" className={classes.link}>Profile</Link>
           </Typography>
         </Toolbar>
       </AppBar>

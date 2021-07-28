@@ -4,27 +4,22 @@ import {
   Switch,
   Route,
 } from "react-router-dom";
-import {Provider} from 'react-redux'
 
 
-import allPosts from './pages/posts/allPosts'
-import addPost from './pages/admin/addPost'
+import addProduct from './pages/admin/addProduct'
 import Profile from './pages/admin/profile'
-import Store from './store/store'
 
 function App() {
 
   return (
-    <Provider store={Store}>
       <Router basename={window.location.pathname || ''}>
         <Switch>
-          <Route path='/' exact component={allPosts} />
-          <Route path='/addPost' exact component={addPost} />
-          <Route path='/addPost/:id' exact component={addPost} />
+          <Route path='/' exact component={Profile} />
+          <Route path='/addPost' exact component={addProduct} />
+          <Route path='/addPost/:id' exact component={addProduct} />
           <Route path='/Profile' exact component={Profile} />
         </Switch>
       </Router>
-    </Provider>
   );
 }
 

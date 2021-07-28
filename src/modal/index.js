@@ -1,13 +1,10 @@
 class Post {
-    constructor (id,ownerId, date, image,content, video,category, tag) {
+    constructor (id,ownerId, date, title, content) {
         this.id = id;
         this.ownerId = ownerId;
         this.date = date;
+        this.title = title;
         this.content = content;
-        this.image = image;
-        this.video = video;
-        this.category = category;
-        this.tag = tag;
     }
 }
 

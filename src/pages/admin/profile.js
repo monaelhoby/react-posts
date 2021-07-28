@@ -16,12 +16,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 
-
-import * as PostAction from '../../store/actions/index'
 import NavBar from '../../components/navBar'
 import PostItem from '../../components/PostItem'
 import Color from '../../constants/colors'
 import Footer from '../../components/footer'
+import {db} from '../../store/firebase'
 
 
 const useStyles = makeStyles({
@@ -70,51 +69,62 @@ const useStyles = makeStyles({
 
 const Profile = props => {
 
-    const dispatch = useDispatch();
+    const [products, setProducts] = React.useState([])
 
-    const posts = useSelector(state => state.Posts.userPosts );
+    React.useEffect(() => {
+        db.collection("products").get()
+            .then(snapshot=>{
+              let products = [];
+              snapshot.docs.forEach(product=>{
+                product.checked = false;
+                products.push(product);
+              })
+            setProducts([...products]);
+        })
+    }, [])
 
 
-    const deletePost = (id) => {
-        dispatch(PostAction.deletePost(id))
-        setOpen(false);
-      }
+    // const deletePost = (id) => {
+    //     dispatch(PostAction.deletePost(id))
+    //     setOpen(false);
+    //   }
 
-    const [open, setOpen] = React.useState(false);
+    // const [open, setOpen] = React.useState(false);
 
 
-    const handleClickOpen = () => {
-        setOpen(true);
-      };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    //   };
     
-      const handleClose = () => {
-        setOpen(false);
-      };
+    //   const handleClose = () => {
+    //     setOpen(false);
+    //   };
 
     const classes = useStyles()
 
     return (
         <div>
-            <NavBar />
+        <NavBar />
         <div style={{position : "relative"}}>
          <Container maxWidth="lg" className={classes.root}>
           <CssBaseline/>
             <Grid container spacing={3} >
-                {posts.map(item => {
+                {products.map(item => {
                     return (
                         <Grid key={item.id} item xs={12} md={4} lg={3}>
                             <PostItem 
-                              url={item.image}
-                              video={item.video}
-                              content = {item.content}
-                              date = {item.date}
+                              url={item.data().image}
+                              quantity={item.data().quantity}
+                              title={item.data().title}
+                              content = {item.data().content}
+                              date = {item.data().date}
                               id={item.id}
                             > 
-                            <div className={classes.btns}>
+                            {/* <div className={classes.btns}>
                                <span className={classes.remove} onClick={handleClickOpen}> 
                                  <DeleteIcon />
-                               </span>
-                               <Dialog
+                               </span> */}
+                               {/* <Dialog
                                     open={open}
                                     onClose={handleClose}
                                     aria-labelledby="alert-dialog-title"
@@ -123,7 +133,7 @@ const Profile = props => {
                                     <DialogTitle id="alert-dialog-title">Are you sure?</DialogTitle>
                                     <DialogContent>
                                     <DialogContentText id="alert-dialog-description">
-                                        Do you realy want delete this Article?
+                                        Do you realy want delete this Product?
                                     </DialogContentText>
                                     </DialogContent>
                                     <DialogActions>
@@ -134,13 +144,8 @@ const Profile = props => {
                                         Yes
                                     </Button>
                                     </DialogActions>
-                                </Dialog>
-                            <Link to={`/addPost/:${item.id}`}  className={classes.edit}>
-                                <span className="material-icons">
-                                    edit
-                                </span>
-                            </Link>
-                            </div>
+                                </Dialog> */}
+                            {/* </div> */}
                             </PostItem>
                         </Grid>
                     )
